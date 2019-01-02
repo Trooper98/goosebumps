@@ -7,6 +7,8 @@ Rain? Wind? Temperature? You can bet that Goosebumps will have your back.
 
 
 ## Setting up
+
+### without RGB Led
 default pins
     3.3.v
     GND
@@ -16,4 +18,11 @@ custom pins
     yellow = GPIO 25 [pin 22]
     green = GPIO 12 [pin 32]
 
-
+### with RGB Led
+default pins
+    3.3.v
+    GND
+custom pins
+    [x] red = GPIO 17 [pin 11]
+    [x] green = GPIO 27 [pin 13]
+    [x] blue = GPIO 22 [pin 15]
