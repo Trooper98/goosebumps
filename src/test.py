@@ -1,3 +1,2 @@
-import led.py as led
-tester = led()
-
+from led import Led
+tester = Led()
