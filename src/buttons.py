@@ -9,8 +9,8 @@ redPin = 11  # GPIO 17
 greenPin = 13  # GPIO 22
 bluePin = 15  # GPIO 27
 
-leftB = 16  # GPIO 23 [left]
-rightB = 18  # GPIO 24 [right]
+leftB = 18  # GPIO 24 [left]
+rightB = 16  # GPIO 23 [right]
 
 switch_On = True
 switch_Off = False
@@ -88,18 +88,23 @@ current = start
 setColor(allColors[current])
 while True:
     print("current is {}".format(current))
-    if GPIO.input(rightB):
+    if GPIO.input(rightB) == 0:
         print("inside right")
         nextNum = current + 1
         if(nextNum == end):
             current = start
+            setColor(allColors[current])
         else:
             current += 1
-    elif GPIO.input(leftB):
+            setColor(allColors[current])
+    elif GPIO.input(leftB) == 0:
         print("inside left")
         prev = current-1
         if(prev < start):
             current = end-1
+            setColor(allColors[current])
         else:
             current -= 1
-    time.sleep(1)
+            setColor(allColors[current])
+
+    time.sleep(0.25)
