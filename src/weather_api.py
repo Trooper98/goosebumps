@@ -6,9 +6,6 @@
 # anyways...
 import config
 import requests
-import sys
-reload(sys)
-sys.setdefaultencoding("ascii")
 
 apiKey = config.apiKey
 query = "https://api.weatherbit.io/v2.0/forecast/hourly?lat=57.705644&lon=11.9368388&key="
