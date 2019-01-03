@@ -1,7 +1,6 @@
 # HOLA
 # This is just a basic template for manipulating the rgb LED with 2 buttons
 # Try and switch things up to see how it works.
-
 import RPi.GPIO as GPIO
 import time
 
@@ -62,23 +61,6 @@ GPIO.setup(greenPin, GPIO.OUT)
 # set up buttons
 GPIO.setup(leftB, GPIO.IN)
 GPIO.setup(rightB, GPIO.IN)
-
-# # setup the pins and switch on the led
-# count = 0
-# for pin in _rgb:
-#     setColor(pin)
-#     if(count < 3):
-#         time.sleep(1)
-#         count = count + 1
-#         print(count)
-
-# # switch off leds
-# lightsOut()
-# time.sleep(3)
-
-# rainbow()
-# lightsOut()
-
 
 start = 0
 end = len(allColors)
