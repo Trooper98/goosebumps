@@ -1,7 +1,8 @@
-# import setup
 # import rgb
-# import buttons
+import setup
+from buttons import Button
 import weather_api
 
 data = weather_api.getUpdate()
-print(data)
+leftButton = Button(setup.leftB)
+print(leftButton.toggle())
