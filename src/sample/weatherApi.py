@@ -1,8 +1,7 @@
-from weather import Weather, Unit
+import config
+import requests
 
-weather = Weather(unit=Unit.CELSIUS)
-
-lookup = weather.lookup(560743)
-condition = lookup.condition
-
-print(condition.text)
+apiKey = config.apiKey
+dataQuery = "https://api.weatherbit.io/v2.0/forecast/hourly?lat=57.705644&lon=11.9368388&key="
+data = requests.get(dataQuery+apiKey)
+print(data.city_name)
