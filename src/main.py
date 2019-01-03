@@ -68,29 +68,38 @@ def rainbow(colors):
         setColor(color)
         time.sleep(.5)
 
+###########################################################################
+###########################################################################
 
+
+print(led)
+print(rightButton)
 print(leftButton)
 
 start = 0
 end = len(setup.allColors)
-print("end"+str(end))
-
 current = start
+
 setColor(setup.allColors[current])
 while True:
     print("current is {}".format(current))
-    if GPIO.input(rightButton["pin"]):
+    if GPIO.input(rightButton["pin"]) == 0:
         print("inside right")
         nextNum = current + 1
         if(nextNum == end):
             current = start
+            setColor(setup.allColors[current])
         else:
             current += 1
-    elif GPIO.input(leftButton["pin"]):
+            setColor(setup.allColors[current])
+    elif GPIO.input(leftButton["pin"]) == 0:
         print("inside left")
         prev = current-1
         if(prev < start):
             current = end-1
+            setColor(setup.allColors[current])
         else:
             current -= 1
-    time.sleep(1)
+            setColor(setup.allColors[current])
+
+    time.sleep(0.25)

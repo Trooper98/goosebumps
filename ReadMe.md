@@ -8,7 +8,7 @@ Rain? Wind? Temperature? You can bet that Goosebumps will have your back.
 
 # Setting up
 
-## hardware
+## Hardware
 ### with RGB Led
 1. default pins
 - 3.3.v
@@ -19,9 +19,9 @@ Rain? Wind? Temperature? You can bet that Goosebumps will have your back.
 - [x] blue = GPIO 22 [pin 15]
 
 3. buttons
-- [button1] = GPIO 23 [pin 16]
-- [button2] = GPIO 24 [pin 18]
+- [lButton] = GPIO 23 [pin 16]
+- [rButton] = GPIO 24 [pin 18]
 
-## software
+## Software
 I started working on python 2 days ago and I have been using the default python and python3 exchanably which is a BBIIGG "no no"
 so to solve that issue, the goosebump project will be developed in PYTHON3 so please keep that in mind when pull requesting (if anyone whiches to do so[im so bored please do so])
