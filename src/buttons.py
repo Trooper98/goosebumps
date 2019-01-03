@@ -1,6 +1,3 @@
-# HOLA
-# This is just a basic template for manipulating the rgb LED with 2 buttons
-# Try and switch things up to see how it works.
 import RPi.GPIO as GPIO
 import time
 

@@ -1,9 +1,6 @@
-# HOLA
-# This is just a basic template for manipulating the rgb LED.
-# Try and switch things up to see how it works.
-
 import RPi.GPIO as GPIO
 import time
+import setup
 
 redPin = 11  # GPIO 17
 greenPin = 13  # GPIO 22
@@ -21,6 +18,20 @@ cyan = [green, blue]
 white = [red, blue, green]
 _rgb = [red, green, blue]
 allColors = [red, green, blue, yellow, puprle, white]
+
+
+def __init__(self, redP, greenP, blueP):
+    self.redP = redP
+    self.greenP = greenP
+    self.blueP = blueP
+    # surpress warnings
+    GPIO.setwarnings(False)
+    # setup the pins accrding to B+ board rather than BCM
+    GPIO.setmode(GPIO.BOARD)
+    # set up main pins
+    GPIO.setup(redPin, GPIO.OUT)
+    GPIO.setup(bluePin, GPIO.OUT)
+    GPIO.setup(greenPin, GPIO.OUT)
 
 
 def toggle(pin, switch):
@@ -44,29 +55,6 @@ def rainbow():
         setColor(color)
         time.sleep(.5)
 
-
-# surpress warnings
-GPIO.setwarnings(False)
-# setup the pins accrding to B+ board rather than BCM
-GPIO.setmode(GPIO.BOARD)
-# set up main pins
-GPIO.setup(redPin, GPIO.OUT)
-GPIO.setup(bluePin, GPIO.OUT)
-GPIO.setup(greenPin, GPIO.OUT)
-
-
-# setup the pins and switch on the led
-count = 0
-for pin in _rgb:
-    setColor(pin)
-    if(count < 3):
-        time.sleep(1)
-        count = count + 1
-        print(count)
-
-# switch off leds
-lightsOut()
-time.sleep(3)
 
 rainbow()
 lightsOut()
