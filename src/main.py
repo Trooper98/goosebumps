@@ -1,6 +1,7 @@
+# import setup
+# import rgb
+# import buttons
 import weather_api
-import rgb
-import buttons
 
 data = weather_api.getUpdate()
 print(data)
