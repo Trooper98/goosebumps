@@ -68,38 +68,22 @@ def rainbow(colors):
         setColor(color)
         time.sleep(.5)
 
-###########################################################################
-###########################################################################
-
 
 print(led)
 print(rightButton)
 print(leftButton)
 
-start = 0
-end = len(setup.allColors)
-current = start
-
-setColor(setup.allColors[current])
+rainbow(setup.allColors)
+setColor(setup.white)
 while True:
     print("current is {}".format(current))
     if GPIO.input(rightButton["pin"]) == 0:
-        print("inside right")
-        nextNum = current + 1
-        if(nextNum == end):
-            current = start
-            setColor(setup.allColors[current])
-        else:
-            current += 1
-            setColor(setup.allColors[current])
+        # will it rain
+        time.sleep(180)
     elif GPIO.input(leftButton["pin"]) == 0:
-        print("inside left")
-        prev = current-1
-        if(prev < start):
-            current = end-1
-            setColor(setup.allColors[current])
-        else:
-            current -= 1
-            setColor(setup.allColors[current])
-
-    time.sleep(0.25)
+        # windy?
+        time.sleep(180)
+    elif (False == True):
+        # this is meant to be the case that closes program
+    else:
+        # is the temparature good

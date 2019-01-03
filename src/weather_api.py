@@ -15,3 +15,39 @@ def getUpdate():
     response = requests.get(query+apiKey)
     data = response.json()
     return data
+
+
+def getTemperature(data):
+    tempList = []
+    for unit in data:
+        temp = {
+            "name": unit["weather.description"],
+            "temp": unit["temp"],
+            "feelsLike": unit["app_temp"]
+        }
+        tempList.append(temp)
+    return tempList
+
+
+def getWind(data):
+    windList = []
+    for unit in data:
+        wind = {
+            "direction": unit["wind_cdir"],
+            "speed": unit["wind_spd"],
+            "gust": unit["wind_gust_spd"],
+        }
+        windList.append(wind)
+    return windList
+
+
+def getRain(data):
+    rainPredictions = []
+    for unit in data:
+        rain = {
+            "direction": unit["wind_cdir"],
+            "speed": unit["wind_spd"],
+            "gust": unit["wind_gust_spd"],
+        }
+        rainPredictions.append(rain)
+    return rainPredictions
