@@ -2,6 +2,7 @@
 redPin = 11  # GPIO 17
 greenPin = 13  # GPIO 22
 bluePin = 15  # GPIO 27
+_rgb = [redPin, greenPin, bluePin]
 
 # all the color codes
 red = [redPin]
@@ -11,7 +12,6 @@ yellow = [redPin, greenPin]
 puprle = [redPin, bluePin]
 cyan = [green, blue]
 white = [red, blue, green]
-_rgb = [red, green, blue]
 allColors = [red, green, blue, yellow, puprle, white]
 
 # buttons
