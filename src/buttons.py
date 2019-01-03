@@ -21,8 +21,3 @@ class Button:
         # toggles boolean and returns the new value after toggle
         self.pressed = not self.pressed
         return self.pressed
-
-
-b = Button(leftB, "left")
-
-print(b.toggle())
