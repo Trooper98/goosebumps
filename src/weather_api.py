@@ -4,15 +4,43 @@
 # like "ö", "å" and "ä" that mess up the code and thus require the entire file to be encode
 # link: https://markhneedham.com/blog/2015/05/21/python-unicodeencodeerror-ascii-codec-cant-encode-character-uxfc-in-position-11-ordinal-not-in-range128/
 # anyways...
-import config
 import requests
 
-apiKey = config.apiKey
-query = "https://api.weatherbit.io/v2.0/forecast/hourly?lat=57.705644&lon=11.9368388&key="
+
+def getQuery(location, option, api_key):
+    # Option [1 = coordinates]
+    # Option [2 = postal code]
+    # Option [3 = city]
+    query = ""
+    if option == 1:
+        query = "https://api.weatherbit.io/v2.0/forecast/hourly?lat=" + \
+            location["lat"]+"&lon="+location["long"] + \
+                "&key="+api_key+"&units=S"
+        return query
+    elif option == 2:
+        query = "https://api.weatherbit.io/v2.0/forecast/hourly?postal_code=" + \
+            location["postal-code"]+"&country=" + \
+                location["country"]+"&key="+api_key+"&units=S"
+        return query
+    elif option == 3:
+        query = "https://api.weatherbit.io/v2.0/forecast/hourly?city=" + \
+            location["city"]+"&country=" + \
+                location["country"]+"&key="+api_key+"&units=S"
+        return query
+    elif option == 4:
+        query = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + \
+            location["city"]+"&country=" + \
+                location["country"]+"&key="+api_key
+        return query
+    elif option == 5:
+        query = "https://api.weatherbit.io/v2.0/forecast/current?postal_code=" + \
+            location["postal-code"]+"&country=" + \
+                location["country"]+"&key="+api_key+"&units=S"
+        return query
 
 
-def getUpdate():
-    response = requests.get(query+apiKey)
+def getUpdate(query):
+    response = requests.get(query)
     data = response.json()
     return data
 
