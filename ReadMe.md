@@ -13,12 +13,17 @@ Rain? Wind? Temperature? You can bet that Goosebumps will have your back.
 1. default pins
 - 3.3.v
 - GND
-2. rgb Led pins
-- [x] red = GPIO 17 [pin 11]
-- [x] green = GPIO 27 [pin 13]
-- [x] blue = GPIO 22 [pin 15]
 
-3. buttons
+2. rgb Led pins
+- red = GPIO 17 [pin 11]
+- green = GPIO 27 [pin 13]
+- blue = GPIO 22 [pin 15]
+
+3. LEDS
+- red LED = GPIO 13 [pin 33]
+- green LED = GPIO 6 [pin 31]
+
+4. buttons
 - [lButton] = GPIO 23 [pin 16]
 - [rButton] = GPIO 24 [pin 18]
 
