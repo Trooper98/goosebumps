@@ -14,7 +14,7 @@ Rain? Wind? Temperature? You can bet that Goosebumps will have your back.
 - 3.3.v
 - GND
 
-2. rgb Led pins
+2. multi-color Led pins
 - red = GPIO 17 [pin 11]
 - green = GPIO 27 [pin 13]
 - blue = GPIO 22 [pin 15]
