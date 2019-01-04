@@ -13,8 +13,8 @@ hot = [26, 100]
 ########################################################
 
 # multi-color LED pins
-red_pin = 33  # GPIO 13
-green_pin = 31  # GPIO 6
+red_pin = 31  # GPIO 13
+green_pin = 33  # GPIO 6
 
 # multi-color LED pins
 redPin = 11  # GPIO 17

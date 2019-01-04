@@ -26,8 +26,8 @@ multi_led = {
     "blue": setup.bluePin
 }
 
-green_led = setup.green_pin
-red_led = setup.red_pin
+green_led = [setup.green_pin, False]
+red_led = [setup.red_pin, False]
 
 switch_On = True
 switch_Off = False
@@ -107,21 +107,13 @@ GPIO.setup(multi_led["green"], GPIO.OUT)
 GPIO.setup(multi_led["blue"], GPIO.OUT)
 
 # set up LED #
-GPIO.setup(green_led, GPIO.OUT)
-GPIO.setup(red_led, GPIO.OUT)
+GPIO.setup(green_led[0], GPIO.OUT)
+GPIO.setup(red_led[0], GPIO.OUT)
 
 # set up buttons #
 # Set button pin to be an input pin and set initial value to be pulled low (off)
-GPIO.setup(leftButton["pin"], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(rightButton["pin"], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-
-# the left button will show wind
-GPIO.add_event_detect(
-    leftButton["pin"], GPIO.RISING, callback=rainbow(setup.allColors))
-# the right button will show wind
-GPIO.add_event_detect(
-    rightButton["pin"], GPIO.RISING, callback=rainbow(setup.allColors))
+GPIO.setup(leftButton["pin"], GPIO.IN)
+GPIO.setup(rightButton["pin"], GPIO.IN)
 
 print(multi_led)
 print(rightButton)
@@ -130,15 +122,26 @@ print(leftButton)
 
 rainbow(setup.allColors)
 setColor(setup.white)
+toggle(red_led[0], switch_On)
+toggle(green_led[0], switch_On)
+time.sleep(3)
+lightsOut()
+toggle(red_led[0], switch_Off)
+toggle(green_led[0], switch_Off)
 
-while True:
-    if(GPIO.input(rightButton["pin"]) == GPIO.HIGH):
-        setColor(setup.puprle)
-        time.sleep(5)
-        lightsOut()
-    elif (GPIO.input(leftButton["pin"]) == GPIO.HIGH):
-        setColor(setup.blue)
-        time.sleep(5)
-        lightsOut()
-    else:
-        setColor(setup.red)
+try:
+    while True:
+        if GPIO.input(rightButton["pin"]) == 0:
+            print("right")
+            toggle(red_led[0], red_led[1])
+            red_led[1] = not red_led[1]
+            time.sleep(.5)
+        elif GPIO.input(leftButton["pin"]) == 0:
+            print("left")
+            toggle(green_led[0], green_led[1])
+            green_led[1] = not green_led[1]
+            time.sleep(.5)
+        else:
+            setColor(setup.puprle)
+finally:
+    lightsOut()
