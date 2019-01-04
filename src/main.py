@@ -6,7 +6,6 @@ import setup
 import weather_api as api
 import config
 
-#######################################
 # Button
 leftButton = {
     "name": "left",
@@ -33,7 +32,6 @@ red_led = setup.red_pin
 switch_On = True
 switch_Off = False
 
-#######################################
 # API
 apiKey = config.apiKey
 location = setup.lindholmen
@@ -48,7 +46,6 @@ currentDate = time.gmtime(time.time())
 currentHour = currentDate.tm_hour
 
 count = 0
-#######################################
 
 
 def toggle(pin, switch):
@@ -97,10 +94,7 @@ def refillData(data):
             if(count == 12):
                 break
 
-####################################################
 
-
-#######################################
 # Setting Up
 # surpress warnings
 GPIO.setwarnings(False)
@@ -123,12 +117,12 @@ GPIO.setup(rightButton["pin"], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 
 # the left button will show wind
-GPIO.add_event_detect(leftButton["pin"], GPIO.RISING, callback=somemethod)
+GPIO.add_event_detect(
+    leftButton["pin"], GPIO.RISING, callback=rainbow(setup.allColors))
 # the right button will show wind
-GPIO.add_event_detect(rightButton["pin"], GPIO.RISING, callback=somemethod)
-#######################################
+GPIO.add_event_detect(
+    rightButton["pin"], GPIO.RISING, callback=rainbow(setup.allColors))
 
-####################################################
 print(multi_led)
 print(rightButton)
 print(leftButton)
@@ -147,18 +141,4 @@ while True:
         time.sleep(5)
         lightsOut()
     else:
-        x = 0
-
-    # while True:
-    #     if GPIO.input(rightButton["pin"]) == GPIO.HIGH:
-    #         # will it rain
-    #         time.sleep(180)
-    #     elif GPIO.input(leftButton["pin"]) == GPIO.HIGH:
-    #         # windy?
-    #         time.sleep(180)
-    #     elif (False == True):
-    #         # this is meant to be the case that closes program
-    #         dummy = 1 + 1
-    #     else:
-    #         # is the temparature good
-    #         dummy = 1+1
+        setColor(setup.red)
