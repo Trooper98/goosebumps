@@ -133,15 +133,17 @@ try:
     while True:
         if GPIO.input(rightButton["pin"]) == 0:
             print("right")
-            toggle(red_led[0], red_led[1])
             red_led[1] = not red_led[1]
+            toggle(red_led[0], red_led[1])
             time.sleep(.5)
         elif GPIO.input(leftButton["pin"]) == 0:
             print("left")
-            toggle(green_led[0], green_led[1])
             green_led[1] = not green_led[1]
+            toggle(green_led[0], green_led[1])
             time.sleep(.5)
         else:
             setColor(setup.puprle)
 finally:
     lightsOut()
+    toggle(green_led[0], False)
+    toggle(red_led[0], False)
