@@ -47,28 +47,28 @@ print(setup.rightButton)
 print(setup.leftButton)
 
 multiLed.rainbow()
-multiLed.setColor(multiLed.white)
 redLed.lightsOn()
 greenLed.lightsOn()
 time.sleep(3)
 multiLed.lightsOut()
 redLed.lightsOut()
 greenLed.lightsOut()
-print("red led switch is {}".format(redLed.switch))
-print(redLed.toString())
+print("{} led switch is {}".format(redLed.name, redLed.switch))
+print("{} led switch is {}".format(greenLed.name, greenLed.switch))
+print("{} led switch is {}".format(multiLed.name, multiLed.switch))
 
 try:
     while True:
         if GPIO.input(setup.rightButton["pin"]) == 0:
             print("right")
             redLed.toggle()
-            time.sleep(.75)
+            time.sleep(.5)
         elif GPIO.input(setup.leftButton["pin"]) == 0:
             print("left")
             greenLed.toggle()
-            time.sleep(.75)
+            time.sleep(.5)
         else:
-            multiLed.setColor(multiLed.red)
+            multiLed.setColor(multiLed.blue)
 finally:
     multiLed.lightsOut()
     greenLed.lightsOut()

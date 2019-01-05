@@ -89,8 +89,8 @@ class Multi_Led(Single_Led):
         time.sleep(.5)
 
     def rainbow(self):
-        self.setColor(self.allColors)
-        self.lightsOut()
+        for color in self.allColors:
+            self.setColor(color)
 
     def toString(self):
         return {"name": self.name, "switch": self.switch, "redPin": self.red, "greenPin": self.green, "bluePin": self.blue}
