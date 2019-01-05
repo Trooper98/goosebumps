@@ -88,7 +88,8 @@ class darkSky_api():
                 self.wind = False
 
     def toString(self):
-        return {"rain": self.rain, "wind": self.wind, "temp": self.temp, "currentData": {self.data}, "userPreference": self.userPreference}
+        dataset = self.data.__doc__
+        return {"rain": self.rain, "wind": self.wind, "temp": self.temp, "currentData": {dataset}, "userPreference": self.userPreference}
 
 
 class weatherIO():
