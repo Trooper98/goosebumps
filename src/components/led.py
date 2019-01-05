@@ -46,12 +46,12 @@ class Multi_Led(Single_Led):
         self.puprle = [redPin, bluePin]
         self.cyan = [greenPin, bluePin]
         self.white = [redPin, greenPin, bluePin]
-        self.allColors = [redPin, greenPin, bluePin,
+        self.allColors = [self.red, self.green, self.blue,
                           self.yellow, self.puprle, self.cyan, self.white]
 
     def manualToggle(self, pin, switch):
         GPIO.output(pin, switch)
-        self.switch = switch
+        self.self.switch = switch
 
     def lightsOn(self):
         self.manualToggle(self.red, switch_On)

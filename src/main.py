@@ -68,7 +68,7 @@ try:
             greenLed.toggle()
             time.sleep(.75)
         else:
-            multiLed.setColor(multiLed.puprle)
+            multiLed.setColor(multiLed.red)
 finally:
     multiLed.lightsOut()
     greenLed.lightsOut()
