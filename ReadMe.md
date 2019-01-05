@@ -30,5 +30,17 @@ Rain? Wind? Temperature? You can bet that Goosebumps will have your back.
 I started working on python 2 days ago and I have been using the default python and python3 exchanably which is a BBIIGG "no no"
 so to solve that issue, the goosebump project will be developed in PYTHON3 so please keep that in mind when pull requesting (if anyone whiches to do so[im so bored please do so])
 
-NOTE: the readme will be update later
+#### Features
+1. Always displayys current temperature
+2. Can display, in binary terms, whether its going to rain in the next 5 hours
+3. Can display, in binary terms, whether its gonna be windy in the next 5 hours
+4. Fetches data hourly... with a rainbow show
+
+#### New Features
+1. Prints out data to the console
+    this includes:
+    - wind
+    - rain 
+    - data sets for the next 5 hours/ hour
+
 

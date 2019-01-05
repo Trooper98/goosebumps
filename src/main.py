@@ -122,6 +122,7 @@ try:
             else:
                 currentHour += 1
             multiLed.lightsOut()
+            print(api.toString())
 
 finally:
     multiLed.lightsOut()
