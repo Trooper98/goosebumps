@@ -62,6 +62,7 @@ try:
     api.update()
     while True:
         currentMinute = datetime.now().minute
+        hourStamp = datetime.now().hour
 
         if GPIO.input(setup.rightButton["pin"]) == 0:  # wind
             print("right")
@@ -93,10 +94,25 @@ try:
 
         if(currentMinute in quarter):
             multiLed.rainbowLoop(1)
+            if(api.wind):
+                multiLed.setColor(multiLed.white)
+                time.sleep(1)
+                multiLed.setColor(multiLed.puprle)
+            if(api.rain):
+                multiLed.setColor(multiLed.blue)
+                time.sleep(1)
+                multiLed.setColor(multiLed.puprle)
+            multiLed.setColor(multiLed.puprle)
+            time.sleep(1)
+            multiLed.lightsOut()
 
-        if(datetime.now().hour > currentHour):
+        if(hourStamp == currentHour):
             api.update()
             multiLed.rainbowLoop(3)
+            if hourStamp == 23:
+                currentHour = 0
+            else:
+                currentHour += 1
 
 finally:
     multiLed.lightsOut()
