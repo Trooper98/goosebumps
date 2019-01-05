@@ -81,15 +81,16 @@ class Multi_Led(Single_Led):
 
     def setColor(self, colors):
         self.lightsOut()
-        for color in colors:
-            for unit in color:
-                self.manualToggle(unit, switch_On)
-            time.sleep(.5)
+        if isinstance(colors, list):
+            for color in colors:
+                self.manualToggle(color, switch_On)
+        else:
+            self.manualToggle(colors, switch_On)
+        time.sleep(.5)
 
     def rainbow(self):
         self.setColor(self.allColors)
-        self.switch = True
-        time.sleep(.5)
+        self.lightsOut()
 
     def toString(self):
         return {"name": self.name, "switch": self.switch, "redPin": self.red, "greenPin": self.green, "bluePin": self.blue}
