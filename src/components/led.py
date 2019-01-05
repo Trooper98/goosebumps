@@ -65,7 +65,7 @@ class Multi_Led(Single_Led):
 
     def manualToggle(self, pin, switch):
         GPIO.output(pin, switch)
-        self.self.switch = switch
+        self.switch = switch
 
     def lightsOn(self):
         self.manualToggle(self.red, switch_On)
