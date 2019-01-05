@@ -13,16 +13,20 @@ class Single_Led():
         self.pin = pin
         self.switch = False
 
-    def toggle(self, switch):
+    def toggle(self):
+        self.switch = not self.switch
+        GPIO.output(self.pin, self.switch)
+
+    def manualToggle(self, switch):
         GPIO.output(self.pin, switch)
-        self.switch = not switch
+        self.switch = switch
 
     def lightsOn(self):
-        self.toggle(switch_On)
+        self.manualToggle(switch_On)
         self.switch = True
 
     def lightsOut(self):
-        self.toggle(switch_Off)
+        self.manualToggle(switch_Off)
         self.switch = False
 
     def toString(self):
@@ -45,29 +49,30 @@ class Multi_Led(Single_Led):
         self.allColors = [redPin, greenPin, bluePin,
                           self.yellow, self.puprle, self.cyan, self.white]
 
-    def toggle(self, pin, switch):
+    def manualToggle(self, pin, switch):
         GPIO.output(pin, switch)
+        self.switch = switch
 
     def lightsOn(self):
-        self.toggle(self.red, switch_On)
-        self.toggle(self.green, switch_On)
-        self.toggle(self.blue, switch_On)
+        self.manualToggle(self.red, switch_On)
+        self.manualToggle(self.green, switch_On)
+        self.manualToggle(self.blue, switch_On)
         self.switch = True
 
     def lightsOut(self):
-        self.toggle(self.red, switch_Off)
-        self.toggle(self.green, switch_Off)
-        self.toggle(self.blue, switch_Off)
+        self.manualToggle(self.red, switch_Off)
+        self.manualToggle(self.green, switch_Off)
+        self.manualToggle(self.blue, switch_Off)
         self.switch = False
 
     def setColor(self, colors):
         self.lightsOut()
         for color in colors:
-            self.toggle(color, switch_On)
+            self.manualToggle(color, switch_On)
 
     def rainbow(self):
         self.setColor(self.allColors)
-	self.switch = True
+        self.switch = True
         time.sleep(.5)
 
     def toString(self):

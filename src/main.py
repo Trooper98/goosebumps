@@ -61,11 +61,11 @@ try:
     while True:
         if GPIO.input(setup.rightButton["pin"]) == 0:
             print("right")
-            redLed.toggle(not redLed.switch)
+            redLed.toggle()
             time.sleep(.75)
         elif GPIO.input(setup.leftButton["pin"]) == 0:
             print("left")
-            greenLed.toggle(not greenLed.switch)
+            greenLed.toggle()
             time.sleep(.75)
         else:
             multiLed.setColor(multiLed.puprle)
