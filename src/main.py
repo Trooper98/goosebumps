@@ -58,7 +58,7 @@ print("{} led switch is {}".format(multiLed.name, multiLed.switch))
 
 try:
     currentHour = datetime.now().hour  # get the current hour
-    quarter = [15, 30, 45]  # keep track of quarters in time
+    halfHour = 30  # keep track of half hour
     api.update()
     while True:
         currentMinute = datetime.now().minute
@@ -92,7 +92,7 @@ try:
                 redLed.lightsOut()
                 greenLed.lightsOn()
 
-        if(currentMinute in quarter):
+        if(currentMinute in halfHour):
             multiLed.rainbowLoop(1)
             if(api.wind):
                 multiLed.setColor(multiLed.white)
@@ -108,7 +108,7 @@ try:
 
         if(hourStamp == currentHour):
             api.update()
-            multiLed.rainbowLoop(3)
+            multiLed.rainbowLoop(2)
             if hourStamp == 23:
                 currentHour = 0
             else:
