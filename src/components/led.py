@@ -67,6 +67,7 @@ class Multi_Led(Single_Led):
 
     def rainbow(self):
         self.setColor(self.allColors)
+	self.switch = True
         time.sleep(.5)
 
     def toString(self):

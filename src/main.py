@@ -35,7 +35,7 @@ GPIO.setup(multiLed.blue, GPIO.OUT)
 
 # set up LED #
 GPIO.setup(greenLed.pin, GPIO.OUT)
-GPIO.setup(redLed, GPIO.OUT)
+GPIO.setup(redLed.pin, GPIO.OUT)
 
 # set up buttons #
 # Set button pin to be an input pin and set initial value to be pulled low (off)
@@ -54,17 +54,19 @@ time.sleep(3)
 multiLed.lightsOut()
 redLed.lightsOut()
 greenLed.lightsOut()
+print("red led switch is {}".format(redLed.switch))
+print(redLed.toString())
 
 try:
     while True:
         if GPIO.input(setup.rightButton["pin"]) == 0:
             print("right")
             redLed.toggle(not redLed.switch)
-            time.sleep(.5)
+            time.sleep(.75)
         elif GPIO.input(setup.leftButton["pin"]) == 0:
             print("left")
             greenLed.toggle(not greenLed.switch)
-            time.sleep(.5)
+            time.sleep(.75)
         else:
             multiLed.setColor(multiLed.puprle)
 finally:

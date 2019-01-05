@@ -92,5 +92,4 @@ class WeatherApi():
 
     def getUpdate(self, query):
         response = requests.get(query).json()
-        data = response.json()
-        return data
+        return response
