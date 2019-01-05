@@ -116,9 +116,9 @@ try:
 
         if(hourStamp == currentHour):
             api.update()
-            multiLed.rainbowLoop(2)
-            if hourStamp == 23:
-                currentHour = 0
+            multiLed.rainbowLoop(1)
+            if hourStamp == 23:  # 23 hours [special case]
+                currentHour = 0  # turn back the time to midnight
             else:
                 currentHour += 1
             multiLed.lightsOut()
