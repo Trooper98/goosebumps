@@ -13,9 +13,9 @@ class WeatherApi():
     """A Broker Class for Weather Api"""
 
     def __init__(self, location, api_key):
-        query = self.getQuery(location, 1, api_key)
-        dataSet = self.getUpdate(query)
-        self.data = self.filterData(dataSet)
+        self.query = self.getQuery(location, 1, api_key)
+        self.rawData = self.getUpdate(self.query)
+        self.data = self.filterData(self.rawData)
 
     def getQuery(self, location, option, api_key):
         # Option [1 = coordinates]
@@ -46,17 +46,17 @@ class WeatherApi():
     def apiHour(self, timestamp):
         return int(datetime.utcfromtimestamp(timestamp).strftime("%H"))
 
-    def filterData(self, dataSet):
+    def filterData(self, rawData):
         count = 0
         dataPoints = []
         currentHour = time.gmtime(time.time()).tm_hour
 
-        for hour in dataSet["data"]:
+        for hour in rawData["data"]:
             apihour = self.apiHour(hour["ts"])
             if(apihour >= currentHour):  # if unit has passed in time, then disregard it
                 info = {
-                    "location": dataSet["city_name"],
-                    "country": dataSet["country_code"],
+                    "location": rawData["city_name"],
+                    "country": rawData["country_code"],
                     "time": hour["datetime"],
                     "temp": hour["temp"],
                     "tempFeel": hour["app_temp"],
@@ -71,14 +71,14 @@ class WeatherApi():
                     break
         return dataPoints
 
-    def getAllData(self, dataSet):
+    def getAllData(self, rawData):
         dataPoints = []
 
-        for hour in dataSet["data"]:
+        for hour in rawData["data"]:
 
             info = {
-                "location": dataSet["city_name"],
-                "country": dataSet["country_code"],
+                "location": rawData["city_name"],
+                "country": rawData["country_code"],
                 "time": hour["datetime"],
                 "temp": hour["temp"],
                 "tempFeel": hour["app_temp"],

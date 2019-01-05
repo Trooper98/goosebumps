@@ -12,10 +12,11 @@ apiKey = config.apiKey
 location = setup.lindholmen
 option = 1
 api = WeatherApi(location, apiKey)
+print(api.getAllData(api.rawData))
 
 # LEDS
 multiLed = Multi_Led(
-    "multi led", setup.multi_led["red"], setup.multi_led["blue"], setup.multi_led["green"])
+    "multi led", setup.multi_led["red"], setup.multi_led["green"], setup.multi_led["blue"])
 greenLed = Single_Led("green", setup.single_greenPin)
 redLed = Single_Led("red", setup.single_redPin)
 
