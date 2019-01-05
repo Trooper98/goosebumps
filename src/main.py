@@ -1,99 +1,26 @@
 import RPi.GPIO as GPIO
-import json
 from datetime import datetime
 import time
 import setup
-import weather_api as api
 import config
-
-# Button
-leftButton = {
-    "name": "left",
-    "pin": setup.leftB,
-    "switch": False
-}
-
-rightButton = {
-    "name": "right",
-    "pin": setup.rightB,
-    "switch": False
-}
-
-# Led
-multi_led = {
-    "red": setup.redPin,
-    "green": setup.greenPin,
-    "blue": setup.bluePin
-}
-
-green_led = [setup.green_pin, False]
-red_led = [setup.red_pin, False]
-
-switch_On = True
-switch_Off = False
+from components.led import Single_Led
+from components.led import Multi_Led
+from components.weather_api import WeatherApi
 
 # API
 apiKey = config.apiKey
 location = setup.lindholmen
-
 option = 1
-query = api.getQuery(location, option, apiKey)
-response = api.getUpdate(query)
-data = response["data"]
-dataPoints = []
+api = WeatherApi(location, apiKey)
 
-currentDate = time.gmtime(time.time())
-currentHour = currentDate.tm_hour
+# LEDS
+multiLed = Multi_Led(
+    "multi led", setup.multi_led["red"], setup.multi_led["blue"], setup.multi_led["green"])
+greenLed = Single_Led("green", setup.single_greenPin)
+redLed = Single_Led("red", setup.single_redPin)
 
-count = 0
-
-
-def toggle(pin, switch):
-    GPIO.output(pin, switch)
-
-
-def lightsOut():
-    for pin in setup._rgb:
-        toggle(pin, switch_Off)
-
-
-def setColor(colors):
-    # switch off leds
-    lightsOut()
-    for color in colors:
-        toggle(color, switch_On)
-
-
-def rainbow(colors):
-    for color in colors:
-        setColor(color)
-        time.sleep(.5)
-
-
-def apiHour(timestamp):
-    return int(datetime.utcfromtimestamp(timestamp).strftime("%H"))
-
-
-def refillData(data):
-    for hour in data:
-        apihour = apiHour(hour["ts"])
-        if(apihour >= currentHour):  # if unit has passed in time, then disregard it
-            info = {
-                "location": response["city_name"],
-                "country": response["country_code"],
-                "time": hour["datetime"],
-                "temp": hour["temp"],
-                "tempFeel": hour["app_temp"],
-                "wind": hour["wind_spd"],
-                "wind_spd": hour["wind_gust_spd"],
-                "wind_dir": hour["wind_cdir"],
-                "descr": hour["weather"]["description"]
-            }
-            dataPoints.append(info)
-            count += 1
-            if(count == 12):
-                break
-
+switch_On = True
+switch_Off = False
 
 # Setting Up
 # surpress warnings
@@ -102,48 +29,45 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
 # set up multi-color LED #
-GPIO.setup(multi_led["red"], GPIO.OUT)
-GPIO.setup(multi_led["green"], GPIO.OUT)
-GPIO.setup(multi_led["blue"], GPIO.OUT)
+GPIO.setup(multiLed.red, GPIO.OUT)
+GPIO.setup(multiLed.green, GPIO.OUT)
+GPIO.setup(multiLed.blue, GPIO.OUT)
 
 # set up LED #
-GPIO.setup(green_led[0], GPIO.OUT)
-GPIO.setup(red_led[0], GPIO.OUT)
+GPIO.setup(greenLed.pin, GPIO.OUT)
+GPIO.setup(redLed, GPIO.OUT)
 
 # set up buttons #
 # Set button pin to be an input pin and set initial value to be pulled low (off)
-GPIO.setup(leftButton["pin"], GPIO.IN)
-GPIO.setup(rightButton["pin"], GPIO.IN)
+GPIO.setup(setup.leftButton["pin"], GPIO.IN)
+GPIO.setup(setup.rightButton["pin"], GPIO.IN)
 
-print(multi_led)
-print(rightButton)
-print(leftButton)
+print(setup.multi_led)
+print(setup.rightButton)
+print(setup.leftButton)
 
-
-rainbow(setup.allColors)
-setColor(setup.white)
-toggle(red_led[0], switch_On)
-toggle(green_led[0], switch_On)
+multiLed.rainbow()
+multiLed.setColor(multiLed.white)
+redLed.lightsOn()
+greenLed.lightsOn()
 time.sleep(3)
-lightsOut()
-toggle(red_led[0], switch_Off)
-toggle(green_led[0], switch_Off)
+multiLed.lightsOut()
+redLed.lightsOut()
+greenLed.lightsOut()
 
 try:
     while True:
-        if GPIO.input(rightButton["pin"]) == 0:
+        if GPIO.input(setup.rightButton["pin"]) == 0:
             print("right")
-            red_led[1] = not red_led[1]
-            toggle(red_led[0], red_led[1])
+            redLed.toggle(not redLed.switch)
             time.sleep(.5)
-        elif GPIO.input(leftButton["pin"]) == 0:
+        elif GPIO.input(setup.leftButton["pin"]) == 0:
             print("left")
-            green_led[1] = not green_led[1]
-            toggle(green_led[0], green_led[1])
+            greenLed.toggle(not greenLed.switch)
             time.sleep(.5)
         else:
-            setColor(setup.puprle)
+            multiLed.setColor(multiLed.puprle)
 finally:
-    lightsOut()
-    toggle(green_led[0], False)
-    toggle(red_led[0], False)
+    multiLed.lightsOut()
+    greenLed.lightsOut()
+    redLed.lightsOut()
