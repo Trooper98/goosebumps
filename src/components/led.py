@@ -31,7 +31,6 @@ class Single_Led():
 
 class Multi_Led(Single_Led):
     """A class for Multi-Color LED's"""
-    from src import setup
 
     def __init__(self, name, redPin, greenPin, bluePin):
         self.name = name
