@@ -5,14 +5,12 @@ import setup
 import config
 from components.led import Single_Led
 from components.led import Multi_Led
-from components.weather_api import WeatherApi
+from components.weather_api import darkSky_api as API
 
 # API
-apiKey = config.apiKey
+apiKey = config.darksky_key
 location = setup.lindholmen
-option = 1
-api = WeatherApi(location, apiKey)
-print(api.getAllData(api.rawData))
+api = API(location, apiKey, setup.preference)
 
 # LEDS
 multiLed = Multi_Led(
@@ -59,17 +57,47 @@ print("{} led switch is {}".format(greenLed.name, greenLed.switch))
 print("{} led switch is {}".format(multiLed.name, multiLed.switch))
 
 try:
+    currentHour = datetime.now().hour  # get the current hour
+    quarter = [15, 30, 45]  # keep track of quarters in time
+    api.update()
     while True:
-        if GPIO.input(setup.rightButton["pin"]) == 0:
+        currentMinute = datetime.now().minute
+
+        if GPIO.input(setup.rightButton["pin"]) == 0:  # wind
             print("right")
-            redLed.toggle()
+            if(api.wind):
+                multiLed.setColor(multiLed.white)
+            else:
+                multiLed.setColor(multiLed.red)
             time.sleep(.5)
-        elif GPIO.input(setup.leftButton["pin"]) == 0:
+            multiLed.setColor(multiLed.puprle)
+            time.sleep(1)
+            multiLed.lightsOut()
+        elif GPIO.input(setup.leftButton["pin"]) == 0:  # rain
             print("left")
-            greenLed.toggle()
+            if(api.wind):
+                multiLed.setColor(multiLed.blue)
+            else:
+                multiLed.setColor(multiLed.red)
             time.sleep(.5)
+            multiLed.setColor(multiLed.puprle)
+            time.sleep(1)
+            multiLed.lightsOut()
         else:
-            multiLed.setColor(multiLed.blue)
+            if(api.temp):  # if its gonna get cold
+                greenLed.lightsOut()
+                redLed.lightsOn()
+            else:
+                redLed.lightsOut()
+                greenLed.lightsOn()
+
+        if(currentMinute in quarter):
+            multiLed.rainbowLoop(1)
+
+        if(datetime.now().hour > currentHour):
+            api.update()
+            multiLed.rainbowLoop(3)
+
 finally:
     multiLed.lightsOut()
     greenLed.lightsOut()

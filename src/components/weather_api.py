@@ -12,12 +12,13 @@ import requests
 class darkSky_api():
     """A Broker Class for the Dark Sky Api"""
 
-    def __init__(self, location, api_key):
+    def __init__(self, location, api_key, userPreference):
         self.rain = False
         self.wind = False
         self.temp = False
+        self.userPreference = userPreference
         self.query = self.getQuery(location, api_key)
-        self.rawData = self.getRawData(self.query)
+        self.rawData = self.getRawData()
         self.data = self.filterData(self.rawData)
 
     def getQuery(self, location, api_key):
@@ -25,8 +26,8 @@ class darkSky_api():
             api_key+"/"+location["lat"]+","+location["long"]+"?units=si"
         return query
 
-    def getRawData(self, query):
-        response = requests.get(query).json()
+    def getRawData(self):
+        response = requests.get(self.query).json()
         return response
 
     def timestampInHour(self, timestamp):
@@ -59,34 +60,35 @@ class darkSky_api():
                 break
         return dataset
 
-    def update(self, filtered_data, userPreference):
-        for data in filtered_data:
-            if data["temperature"]["temp"] < userPreference["temp"]["cold"]:
+    def update(self):
+        self.data = self.filterData(self.getRawData())
+        for data in self.data:
+            if data["temperature"]["temp"] < self.userPreference["temp"]["cold"]:
                 self.temp = True
-            elif data["temperature"]["temp"] > userPreference["temp"]["hot"]:
-                self.temp = True
-            else:
-                self.temp = False
-
-            if data["temperature"]["tempFeel"] < userPreference["temp"]["cold"]:
-                self.temp = True
-            elif data["temperature"]["tempFeel"] > userPreference["temp"]["hot"]:
+            elif data["temperature"]["temp"] > self.userPreference["temp"]["hot"]:
                 self.temp = True
             else:
                 self.temp = False
 
-            if data["precip"]["precipProb"] > userPreference["willRain"]:
+            if data["temperature"]["tempFeel"] < self.userPreference["temp"]["cold"]:
+                self.temp = True
+            elif data["temperature"]["tempFeel"] > self.userPreference["temp"]["hot"]:
+                self.temp = True
+            else:
+                self.temp = False
+
+            if data["precip"]["precipProb"] > self.userPreference["willRain"]:
                 self.rain = True
             else:
                 self.rain = False
 
-            if data["wind"]["windSpeed"] > userPreference["badWind"]:
+            if data["wind"]["windSpeed"] > self.userPreference["badWind"]:
                 self.wind = True
             else:
                 self.wind = False
 
     def toString(self):
-        return {"rain": self.rain, "wind": self.wind, "temp": self.temp}
+        return {"rain": self.rain, "wind": self.wind, "temp": self.temp, "preferences": self.userPreference}
 
 
 class weatherIO():

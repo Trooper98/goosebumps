@@ -92,5 +92,16 @@ class Multi_Led(Single_Led):
         for color in self.allColors:
             self.setColor(color)
 
+    def rainbowLoop(self, loops):
+        if loops > 0:
+            count = 0
+            while count <= loops:
+                for color in self.allColors:
+                    self.setColor(color)
+                count += 1
+        else:
+            for color in self.allColors:
+                self.setColor(color)
+
     def toString(self):
         return {"name": self.name, "switch": self.switch, "redPin": self.red, "greenPin": self.green, "bluePin": self.blue}
