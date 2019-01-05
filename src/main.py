@@ -70,6 +70,10 @@ try:
                 multiLed.setColor(multiLed.white)
             else:
                 multiLed.setColor(multiLed.red)
+            print("current wind speeds are {} in the {} direction".format(
+                api.data[0]["wind"]["windSpeed"], api.data[0]["wind"]["windDirection"]))
+            print("weather description: {}".format(
+                api.data[0]["description"]))
             time.sleep(.5)
             multiLed.setColor(multiLed.puprle)
             time.sleep(1)
@@ -80,6 +84,10 @@ try:
                 multiLed.setColor(multiLed.blue)
             else:
                 multiLed.setColor(multiLed.red)
+            print("current rain predictions are {}".format(
+                api.data[0]["precip"]["precipProb"]))
+            print("weather description: {}".format(
+                api.data[0]["description"]))
             time.sleep(.5)
             multiLed.setColor(multiLed.puprle)
             time.sleep(1)
@@ -92,7 +100,7 @@ try:
                 redLed.lightsOut()
                 greenLed.lightsOn()
 
-        if(currentMinute in halfHour):
+        if(currentMinute == halfHour):
             multiLed.rainbowLoop(1)
             if(api.wind):
                 multiLed.setColor(multiLed.white)
@@ -113,6 +121,7 @@ try:
                 currentHour = 0
             else:
                 currentHour += 1
+            multiLed.lightsOut()
 
 finally:
     multiLed.lightsOut()
