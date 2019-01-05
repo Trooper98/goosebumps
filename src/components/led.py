@@ -1,6 +1,20 @@
 import RPi.GPIO as GPIO
 import time
 
+########################################################
+# Color Codes
+########################################################
+# NOTE: it refers to the hard ware RGB LED pins
+# all the color codes
+# red = [multi_led["red"]]
+# green = [multi_led["green"]]
+# blue = [multi_led["blue"]]
+# yellow = [red, green]
+# puprle = [red, blue]
+# cyan = [green, blue]
+# white = [red, blue, green]
+# allColors = [red, green, blue, yellow, puprle, white]
+
 switch_On = True
 switch_Off = False
 
@@ -68,7 +82,9 @@ class Multi_Led(Single_Led):
     def setColor(self, colors):
         self.lightsOut()
         for color in colors:
-            self.manualToggle(color, switch_On)
+            for unit in color:
+                self.manualToggle(unit, switch_On)
+            time.sleep(.5)
 
     def rainbow(self):
         self.setColor(self.allColors)

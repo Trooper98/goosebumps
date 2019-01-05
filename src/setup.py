@@ -35,20 +35,6 @@ multi_led = {
 }
 
 ########################################################
-# Color Codes
-########################################################
-# NOTE: it refers to the hard ware RGB LED pins
-# all the color codes
-red = [multi_led["red"]]
-green = [multi_led["green"]]
-blue = [multi_led["blue"]]
-yellow = [red, green]
-puprle = [red, blue]
-cyan = [green, blue]
-white = [red, blue, green]
-allColors = [red, green, blue, yellow, puprle, white]
-
-########################################################
 # Current Location
 ########################################################
 # NOTE: the structure and naming is important
