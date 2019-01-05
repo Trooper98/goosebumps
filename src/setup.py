@@ -1,4 +1,25 @@
 ########################################################
+# Temperature and stuff
+########################################################
+# NOTE: the temperature unit is in degrees Celsius
+
+# I once went to rome during its peak (32) and id rather not get close to that again
+hot = 27
+cold = 4
+
+badWind = 5.5  # more than this exceeds my comfort
+willRain = 0.2  # more than this percentage and you better get a rain coat
+
+preference = {
+    "temp": {
+        "hot": hot,
+        "cold": cold
+    },
+    "badWind": badWind,
+    "willRain": willRain
+}
+
+########################################################
 # Hardware Pins
 ########################################################
 # single-color LED pins

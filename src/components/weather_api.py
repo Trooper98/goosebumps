@@ -4,17 +4,97 @@
 # like "ö", "å" and "ä" that mess up the code and thus require the entire file to be encode
 # link: https://markhneedham.com/blog/2015/05/21/python-unicodeencodeerror-ascii-codec-cant-encode-character-uxfc-in-position-11-ordinal-not-in-range128/
 # anyways...
-import requests
 from datetime import datetime
 import time
+import requests
 
 
-class WeatherApi():
-    """A Broker Class for Weather Api"""
+class darkSky_api():
+    """A Broker Class for the Dark Sky Api"""
+
+    def __init__(self, location, api_key):
+        self.rain = False
+        self.wind = False
+        self.temp = False
+        self.query = self.getQuery(location, api_key)
+        self.rawData = self.getRawData(self.query)
+        self.data = self.filterData(self.rawData)
+
+    def getQuery(self, location, api_key):
+        query = "https://api.darksky.net/forecast/" + \
+            api_key+"/"+location["lat"]+","+location["long"]+"?units=si"
+        return query
+
+    def getRawData(self, query):
+        response = requests.get(query).json()
+        return response
+
+    def timestampInHour(self, timestamp):
+        return int(datetime.utcfromtimestamp(timestamp).strftime("%H"))
+
+    def filterData(self, rawData):
+        data = rawData["hourly"]["data"]
+        dataset = []
+        count = 0
+        for point in data:
+            unit = {
+                "time": self.timestampInHour(point["time"]),
+                "description": point["summary"],
+                "temperature": {
+                    "temp": point["temperature"],
+                    "tempFeel": point["apparentTemperature"]
+                },
+                "precip": {
+                    "precipProb": point["precipProbability"],
+                    # "precipType": point["precipType"]
+                },
+                "wind": {
+                    "windSpeed": point["windSpeed"],
+                    "windDirection": point["windBearing"]
+                }
+            }
+            dataset.append(unit)
+            count += 1
+            if(count == 5):  # i want five data points at most
+                break
+        return dataset
+
+    def update(self, filtered_data, userPreference):
+        for data in filtered_data:
+            if data["temperature"]["temp"] < userPreference["temp"]["cold"]:
+                self.temp = True
+            elif data["temperature"]["temp"] > userPreference["temp"]["hot"]:
+                self.temp = True
+            else:
+                self.temp = False
+
+            if data["temperature"]["tempFeel"] < userPreference["temp"]["cold"]:
+                self.temp = True
+            elif data["temperature"]["tempFeel"] > userPreference["temp"]["hot"]:
+                self.temp = True
+            else:
+                self.temp = False
+
+            if data["precip"]["precipProb"] > userPreference["willRain"]:
+                self.rain = True
+            else:
+                self.rain = False
+
+            if data["wind"]["windSpeed"] > userPreference["badWind"]:
+                self.wind = True
+            else:
+                self.wind = False
+
+    def toString(self):
+        return {"rain": self.rain, "wind": self.wind, "temp": self.temp}
+
+
+class weatherIO():
+    """A Broker Class for WeatherIO Api"""
 
     def __init__(self, location, api_key):
         self.query = self.getQuery(location, 1, api_key)
-        self.rawData = self.getUpdate(self.query)
+        self.rawData = self.getData(self.query)
         self.data = self.filterData(self.rawData)
 
     def getQuery(self, location, option, api_key):
@@ -90,6 +170,6 @@ class WeatherApi():
             dataPoints.append(info)
         return dataPoints
 
-    def getUpdate(self, query):
+    def getData(self, query):
         response = requests.get(query).json()
         return response
