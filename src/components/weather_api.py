@@ -21,7 +21,7 @@ class darkSky_api():
         self.query = self.getQuery(location, api_key)
         self.rawData = self.getRawData()
         self.data = self.filterData(self.rawData)
-        self.meta = json.loads(self.getMetaData(self.data))
+        self.meta = self.getMetaData(self.data)
 
     def getQuery(self, location, api_key):
         query = "https://api.darksky.net/forecast/" + \
