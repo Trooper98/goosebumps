@@ -63,6 +63,9 @@ try:
     }
     halfHour = 30  # keep track of half hour
     api.update()
+    print(api.toString())
+    print("the time is {}:00, {}".format(
+        currentTime["hour"], currentTime["day"]))
     while True:
         timeStamp = datetime.now()
         if GPIO.input(setup.rightButton["pin"]) == 0:  # wind
@@ -98,11 +101,11 @@ try:
                 if(api.meta["coldest"] < 0):  # if its gonna get extra cold
                     # blink
                     greenLed.lightsOut()
-                    redLed.blink(timeStamp.seconds, 5)
+                    redLed.blink(timeStamp.second, 3)
                 elif(api.meta["coldestFeel"] < 0):
                     # blink
                     greenLed.lightsOut()
-                    redLed.blink(timeStamp.seconds, 5)
+                    redLed.blink(timeStamp.second, 3)
                 else:
                     greenLed.lightsOut()
                     redLed.lightsOn()

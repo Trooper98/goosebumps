@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+from datetime import datetime
 
 ########################################################
 # Color Codes
@@ -43,8 +44,8 @@ class Single_Led():
         self.manualToggle(switch_Off)
         self.switch = False
 
-    def blink(self, timeObj, seconds):
-        if((timeObj.seconds % seconds) == 0):
+    def blink(self, currentSecs, seconds):
+        if((currentSecs % seconds) == 0):
             self.toggle()
 
     def toString(self):
