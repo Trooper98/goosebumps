@@ -43,6 +43,10 @@ class Single_Led():
         self.manualToggle(switch_Off)
         self.switch = False
 
+    def blink(self, timeObj, seconds):
+        if((timeObj.seconds % seconds) == 0):
+            self.toggle()
+
     def toString(self):
         return {"name": self.name, "switch": self.switch, "pin": self.pin}
 

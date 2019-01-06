@@ -64,7 +64,7 @@ try:
     halfHour = 30  # keep track of half hour
     api.update()
     while True:
-        currentTimeStamp = datetime.now()
+        timeStamp = datetime.now()
         if GPIO.input(setup.rightButton["pin"]) == 0:  # wind
             print("right")
             if(api.wind):
@@ -98,15 +98,11 @@ try:
                 if(api.meta["coldest"] < 0):  # if its gonna get extra cold
                     # blink
                     greenLed.lightsOut()
-                    redLed.lightsOut()
-                    time.sleep(.7)
-                    redLed.lightsOn()
+                    redLed.blink(timeStamp.seconds, 5)
                 elif(api.meta["coldestFeel"] < 0):
                     # blink
                     greenLed.lightsOut()
-                    redLed.lightsOut()
-                    time.sleep(.7)
-                    redLed.lightsOn()
+                    redLed.blink(timeStamp.seconds, 5)
                 else:
                     greenLed.lightsOut()
                     redLed.lightsOn()
@@ -114,7 +110,7 @@ try:
                 redLed.lightsOut()
                 greenLed.lightsOn()
 
-        if(currentTimeStamp.minute == halfHour):
+        if(timeStamp.minute == halfHour):
             multiLed.rainbowLoop(1)
             if(api.wind):
                 multiLed.setColor(multiLed.white)
@@ -128,12 +124,12 @@ try:
             time.sleep(1)
             multiLed.lightsOut()
 
-        if(currentTimeStamp.hour > currentTime["hour"]):
+        if(timeStamp.hour > currentTime["hour"]):
             api.update()
             multiLed.rainbowLoop(1)
             if currentTime["hour"] == 23:  # 23 hours [special case]
                 currentTime["hour"] = 0  # turn back the time to midnight
-                currentTime["day"] = currentTimeStamp.day
+                currentTime["day"] = timeStamp.day
             else:
                 currentTime["hour"] += 1
             multiLed.lightsOut()
