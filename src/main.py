@@ -94,8 +94,21 @@ try:
             multiLed.lightsOut()
         else:
             if(api.temp):  # if its gonna get cold
-                greenLed.lightsOut()
-                redLed.lightsOn()
+                if(api.meta["coldest"] < 0):  # if its gonna get extra cold
+                    # blink
+                    greenLed.lightsOut()
+                    redLed.lightsOut()
+                    time.sleep(.7)
+                    redLed.lightsOn()
+                elif(api.meta["coldestFeel"] < 0):
+                    # blink
+                    greenLed.lightsOut()
+                    redLed.lightsOut()
+                    time.sleep(.7)
+                    redLed.lightsOn()
+                else:
+                    greenLed.lightsOut()
+                    redLed.lightsOn()
             else:
                 redLed.lightsOut()
                 greenLed.lightsOn()
@@ -123,6 +136,7 @@ try:
                 currentHour += 1
             multiLed.lightsOut()
             print(api.toString())
+            print("the hour is {}".format(currentHour))
 
 finally:
     multiLed.lightsOut()

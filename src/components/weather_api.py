@@ -7,6 +7,7 @@
 from datetime import datetime
 import time
 import requests
+import json
 
 
 class darkSky_api():
@@ -20,6 +21,7 @@ class darkSky_api():
         self.query = self.getQuery(location, api_key)
         self.rawData = self.getRawData()
         self.data = self.filterData(self.rawData)
+        self.meta = json.loads(self.getMetaData(self.data))
 
     def getQuery(self, location, api_key):
         query = "https://api.darksky.net/forecast/" + \
@@ -32,6 +34,36 @@ class darkSky_api():
 
     def timestampInHour(self, timestamp):
         return int(datetime.utcfromtimestamp(timestamp).strftime("%H"))
+
+    def getMetaData(self, data):
+        coldest = data[0]["temperature"]["temp"]
+        coldestFeel = data[0]["temperature"]["tempFeel"]
+        hottest = data[0]["temperature"]["temp"]
+        hottestFeel = data[0]["temperature"]["tempFeel"]
+        rainChance = data[0]["precip"]["precipProb"]
+        wind = data[0]["wind"]["windSpeed"]
+        for unit in data:
+            if unit["temperature"]["temp"] < coldest:
+                coldest = unit["temperature"]["temp"]
+            if unit["temperature"]["tempFeel"] < coldestFeel:
+                coldestFeel = unit["temperature"]["tempFeel"]
+            if unit["temperature"]["temp"] > hottest:
+                hottest = unit["temperature"]["temp"]
+            if unit["temperature"]["tempFeel"] < hottestFeel:
+                hottestFeel = unit["temperature"]["tempFeel"]
+            if unit["precip"]["precipProb"] > rainChance:
+                rainChance = unit["precip"]["precipProb"]
+            if unit["wind"]["windSpeed"] > wind:
+                wind = unit["wind"]["windSpeed"]
+        meta = {
+            "coldest": coldest,
+            "coldestFeel": coldestFeel,
+            "hottest": hottest,
+            "hottestFeel": hottestFeel,
+            "rainChance": rainChance,
+            "wind": wind
+        }
+        return meta
 
     def filterData(self, rawData):
         data = rawData["hourly"]["data"]
@@ -88,8 +120,8 @@ class darkSky_api():
                 self.wind = False
 
     def toString(self):
-        dataset = print(*self.data, sep="\n")
-        return {"rain": self.rain, "wind": self.wind, "temp": self.temp, "userPreference": self.userPreference, "currentData": dataset}
+        # dataset = print(*self.data, sep="\n")
+        return {"rain": self.rain, "wind": self.wind, "temp": self.temp, "userPreference": self.userPreference, "currentData": self.meta}
 
 
 class weatherIO():
