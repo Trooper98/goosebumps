@@ -54,7 +54,6 @@ redLed.lightsOut()
 greenLed.lightsOut()
 print("{} led switch is {}".format(redLed.name, redLed.switch))
 print("{} led switch is {}".format(greenLed.name, greenLed.switch))
-print("{} led switch is {}".format(multiLed.name, multiLed.switch))
 
 try:
     currentTime = {
@@ -63,7 +62,6 @@ try:
     }
     halfHour = 30  # keep track of half hour
     api.update()
-    print(api.toString())
     print("the time is {}:00, {}".format(
         currentTime["hour"], currentTime["day"]))
     while True:
@@ -84,7 +82,7 @@ try:
             multiLed.lightsOut()
         elif GPIO.input(setup.leftButton["pin"]) == 0:  # rain
             print("left")
-            if(api.wind):
+            if(api.rain):
                 multiLed.setColor(multiLed.blue)
             else:
                 multiLed.setColor(multiLed.red)
@@ -127,7 +125,7 @@ try:
             time.sleep(1)
             multiLed.lightsOut()
 
-        if(timeStamp.hour > currentTime["hour"]):
+        if(timeStamp.hour == currentTime["hour"]):
             api.update()
             multiLed.rainbowLoop(1)
             if currentTime["hour"] == 23:  # 23 hours [special case]
