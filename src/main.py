@@ -134,7 +134,7 @@ try:
             else:
                 currentTime["hour"] += 1
             multiLed.lightsOut()
-            print(api.toString(), sep="\n")
+            print(api.toString())
             print("the time is {}:00, {}".format(
                 currentTime["hour"], currentTime["day"]))
 
