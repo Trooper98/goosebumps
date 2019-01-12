@@ -43,6 +43,17 @@ class darkSky_api():
         hottestFeel = data[0]["apparentTemperature"]
         rainChance = data[0]["precipProbability"]
         wind = data[0]["windSpeed"]
+
+        # Data model for meta
+        # meta = {
+        #     "coldest": coldest,
+        #     "coldestFeel": coldestFeel,
+        #     "hottest": hottest,
+        #     "hottestFeel": hottestFeel,
+        #     "rainChance": rainChance,
+        #     "wind": wind
+        # }
+
         count = 0
 
         for unit in data:
@@ -62,14 +73,36 @@ class darkSky_api():
             if(count == 12):
                 break
 
-        meta = {
-            "coldest": coldest,
-            "coldestFeel": coldestFeel,
-            "hottest": hottest,
-            "hottestFeel": hottestFeel,
-            "rainChance": rainChance,
-            "wind": wind
-        }
+        if(hottest <= self.userPreference["temp"]["cold"] and hottestFeel <= self.userPreference["temp"]["cold"]):
+            meta = {
+                "coldest": coldest,
+                "coldestFeel": coldestFeel,
+                "rainChance": rainChance,
+                "wind": wind
+            }
+        elif(coldest >= self.userPreference["temp"]["hot"] and coldestFeel >= self.userPreference["temp"]["hot"]):
+            meta = {
+                "hottest": hottest,
+                "hottestFeel": hottestFeel,
+                "rainChance": rainChance,
+                "wind": wind
+            }
+        elif(coldestFeel == hottest and hottestFeel <= self.userPreference["temp"]["cold"]):
+            meta = {
+                "coldest": coldest,
+                "coldestFeel": coldestFeel,
+                "hottest": hottest,
+                "rainChance": rainChance,
+                "wind": wind
+            }
+        elif(coldestFeel == hottest and coldestFeel >= self.userPreference["temp"]["hot"]):
+            meta = {
+                "coldest": coldest,
+                "hottest": hottest,
+                "hottestFeel": hottestFeel,
+                "rainChance": rainChance,
+                "wind": wind
+            }
         return meta
 
     def filterData(self, rawData):
