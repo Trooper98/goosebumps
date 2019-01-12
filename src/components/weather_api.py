@@ -37,39 +37,72 @@ class darkSky_api():
 
     def getMetaData(self, rawData):
         data = rawData["hourly"]["data"]
-        coldest = data[0]["temperature"]["temp"]
-        coldestFeel = data[0]["temperature"]["tempFeel"]
-        hottest = data[0]["temperature"]["temp"]
-        hottestFeel = data[0]["temperature"]["tempFeel"]
-        rainChance = data[0]["precip"]["precipProb"]
-        wind = data[0]["wind"]["windSpeed"]
+        coldest = data[0]["temperature"]
+        coldestFeel = data[0]["apparentTemperature"]
+        hottest = data[0]["temperature"]
+        hottestFeel = data[0]["apparentTemperature"]
+        rainChance = data[0]["precipProbability"]
+        wind = data[0]["windSpeed"]
+
+        # Data model for meta
+        # meta = {
+        #     "coldest": coldest,
+        #     "coldestFeel": coldestFeel,
+        #     "hottest": hottest,
+        #     "hottestFeel": hottestFeel,
+        #     "rainChance": rainChance,
+        #     "wind": wind
+        # }
+
         count = 0
 
         for unit in data:
-            if unit["temperature"]["temp"] < coldest:
-                coldest = unit["temperature"]["temp"]
-            if unit["temperature"]["tempFeel"] < coldestFeel:
-                coldestFeel = unit["temperature"]["tempFeel"]
-            if unit["temperature"]["temp"] > hottest:
-                hottest = unit["temperature"]["temp"]
-            if unit["temperature"]["tempFeel"] < hottestFeel:
-                hottestFeel = unit["temperature"]["tempFeel"]
-            if unit["precip"]["precipProb"] > rainChance:
-                rainChance = unit["precip"]["precipProb"]
-            if unit["wind"]["windSpeed"] > wind:
-                wind = unit["wind"]["windSpeed"]
+            if unit["temperature"] < coldest:
+                coldest = unit["temperature"]
+            if unit["apparentTemperature"] < coldestFeel:
+                coldestFeel = unit["apparentTemperature"]
+            if unit["temperature"] > hottest:
+                hottest = unit["temperature"]
+            if unit["apparentTemperature"] < hottestFeel:
+                hottestFeel = unit["apparentTemperature"]
+            if unit["precipProbability"] > rainChance:
+                rainChance = unit["precipProbability"]
+            if unit["windSpeed"] > wind:
+                wind = unit["windSpeed"]
             count += 1
             if(count == 12):
                 break
 
-        meta = {
-            "coldest": coldest,
-            "coldestFeel": coldestFeel,
-            "hottest": hottest,
-            "hottestFeel": hottestFeel,
-            "rainChance": rainChance,
-            "wind": wind
-        }
+        if(hottest <= self.userPreference["temp"]["cold"] and hottestFeel <= self.userPreference["temp"]["cold"]):
+            meta = {
+                "coldest": coldest,
+                "coldestFeel": coldestFeel,
+                "rainChance": rainChance,
+                "wind": wind
+            }
+        elif(coldest >= self.userPreference["temp"]["hot"] and coldestFeel >= self.userPreference["temp"]["hot"]):
+            meta = {
+                "hottest": hottest,
+                "hottestFeel": hottestFeel,
+                "rainChance": rainChance,
+                "wind": wind
+            }
+        elif(coldestFeel == hottest and hottestFeel <= self.userPreference["temp"]["cold"]):
+            meta = {
+                "coldest": coldest,
+                "coldestFeel": coldestFeel,
+                "hottest": hottest,
+                "rainChance": rainChance,
+                "wind": wind
+            }
+        elif(coldestFeel == hottest and coldestFeel >= self.userPreference["temp"]["hot"]):
+            meta = {
+                "coldest": coldest,
+                "hottest": hottest,
+                "hottestFeel": hottestFeel,
+                "rainChance": rainChance,
+                "wind": wind
+            }
         return meta
 
     def filterData(self, rawData):

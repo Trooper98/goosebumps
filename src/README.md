@@ -12,5 +12,5 @@ src/
 3. ```config.py``` stores my api keys. The reason it is invisible is t.gitignores which tell git not to record this file
 4. _Components_
         - ```led.py``` is a controller. it controls the leds
-        -  ```weather_api.py``` talks to the weather api (shoutout [darksky][https://darksky.net/poweredby/]!!!!!!)
+        -  ```weather_api.py``` talks to the weather api (a big shoutout to the  [Darksky](https://darksky.net/poweredby/) __api__!)
         

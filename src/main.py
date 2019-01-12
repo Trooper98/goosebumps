@@ -52,18 +52,24 @@ time.sleep(3)
 multiLed.lightsOut()
 redLed.lightsOut()
 greenLed.lightsOut()
-print("{} led switch is {}".format(redLed.name, redLed.switch))
-print("{} led switch is {}".format(greenLed.name, greenLed.switch))
 
 try:
+    print("\n\n=================================")
+    print("WELCOME TO GOOSEBUMPS!")
+    print("=================================")
+    print("\nYou'll never have to worry* about going out unprepared")
+    print("=================================")
+    print("*goosebumps is not to be held responsible\nfor you lack of common sense and/or judgment")
     currentTime = {
         "hour": datetime.now().hour,  # get the current hour
-        "day": datetime.now().day
+        "date": datetime.now().date()
     }
     halfHour = 30  # keep track of half hour
     api.update()
-    print("the time is {}:00, {}".format(
-        currentTime["hour"], currentTime["day"]))
+    print("=================================")
+    print("time: {}:00, date: {}".format(
+        currentTime["hour"], currentTime["date"]))
+    print(api.toString())
     while True:
         timeStamp = datetime.now()
         if GPIO.input(setup.rightButton["pin"]) == 0:  # wind
@@ -72,6 +78,7 @@ try:
                 multiLed.setColor(multiLed.white)
             else:
                 multiLed.setColor(multiLed.red)
+            print("user reqquested data =============================")
             print("current wind speeds are {} in the {} direction".format(
                 api.data[0]["wind"]["windSpeed"], api.data[0]["wind"]["windDirection"]))
             print("weather description: {}".format(
@@ -86,6 +93,7 @@ try:
                 multiLed.setColor(multiLed.blue)
             else:
                 multiLed.setColor(multiLed.red)
+            print("user reqquested data =============================")
             print("current rain predictions are {}".format(
                 api.data[0]["precip"]["precipProb"]))
             print("weather description: {}".format(
@@ -113,30 +121,31 @@ try:
 
         if(timeStamp.minute == halfHour):
             multiLed.rainbowLoop(1)
-            if(api.wind):
-                multiLed.setColor(multiLed.white)
-                time.sleep(1)
-                multiLed.setColor(multiLed.puprle)
             if(api.rain):
                 multiLed.setColor(multiLed.blue)
-                time.sleep(1)
+                time.sleep(5)
+                multiLed.setColor(multiLed.puprle)
+            if(api.wind):
+                multiLed.setColor(multiLed.white)
+                time.sleep(5)
                 multiLed.setColor(multiLed.puprle)
             multiLed.setColor(multiLed.puprle)
             time.sleep(1)
             multiLed.lightsOut()
 
-        if(timeStamp.hour == currentTime["hour"]):
+        if(timeStamp.hour > currentTime["hour"]):
             api.update()
             multiLed.rainbowLoop(1)
             if currentTime["hour"] == 23:  # 23 hours [special case]
                 currentTime["hour"] = 0  # turn back the time to midnight
-                currentTime["day"] = timeStamp.day
+                currentTime["date"] = timeStamp.date()
             else:
                 currentTime["hour"] += 1
             multiLed.lightsOut()
-            print(api.toString())
+            print("=================================")
             print("the time is {}:00, {}".format(
-                currentTime["hour"], currentTime["day"]))
+                currentTime["hour"], currentTime["date"]))
+            print(api.toString())
 
 finally:
     multiLed.lightsOut()
