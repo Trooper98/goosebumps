@@ -49,7 +49,7 @@ class darkSky_api():
             if unit["temperature"] < coldest:
                 coldest = unit["temperature"]
             if unit["apparentTemperature"] < coldestFeel:
-                coldestFeel = unit["temperature"]["tempFeel"]
+                coldestFeel = unit["apparentTemperature"]
             if unit["temperature"] > hottest:
                 hottest = unit["temperature"]
             if unit["apparentTemperature"] < hottestFeel:
