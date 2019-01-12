@@ -37,22 +37,23 @@ Components include:
 (_if anyone whiches to do so [im so bored please do so]_)
 
 ### Hardware
-1. __default pins__
+#### with RGB Led
+1. default pins
 - 3.3.v
 - GND
 
-2. __multi-color Led pins__
+2. multi-color Led pins
 - red = GPIO 17 [pin 11]
 - green = GPIO 27 [pin 13]
 - blue = GPIO 22 [pin 15]
 
-3. __LEDS__
+3. LEDS
 - red LED = GPIO 13 [pin 33]
 - green LED = GPIO 6 [pin 31]
 
-4. __buttons__
-- _lButton_ = GPIO 23 [pin 16]
-- _rButton_ = GPIO 24 [pin 18]
+4. buttons
+- [lButton] = GPIO 23 [pin 16]
+- [rButton] = GPIO 24 [pin 18]
 
 ![alt text](./docs/overview.jpg)
 
