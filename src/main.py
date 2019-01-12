@@ -56,7 +56,7 @@ greenLed.lightsOut()
 try:
     currentTime = {
         "hour": datetime.now().hour,  # get the current hour
-        "day": datetime.now().weekday()
+        "day": datetime.now().day
     }
     halfHour = 30  # keep track of half hour
     api.update()
@@ -128,7 +128,7 @@ try:
             multiLed.rainbowLoop(1)
             if currentTime["hour"] == 23:  # 23 hours [special case]
                 currentTime["hour"] = 0  # turn back the time to midnight
-                currentTime["day"] = timeStamp.weekday()
+                currentTime["day"] = timeStamp.day
             else:
                 currentTime["hour"] += 1
             multiLed.lightsOut()
