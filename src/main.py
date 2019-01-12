@@ -52,13 +52,11 @@ time.sleep(3)
 multiLed.lightsOut()
 redLed.lightsOut()
 greenLed.lightsOut()
-print("{} led switch is {}".format(redLed.name, redLed.switch))
-print("{} led switch is {}".format(greenLed.name, greenLed.switch))
 
 try:
     currentTime = {
         "hour": datetime.now().hour,  # get the current hour
-        "day": datetime.now().day
+        "day": datetime.now().weekday()
     }
     halfHour = 30  # keep track of half hour
     api.update()
@@ -125,12 +123,12 @@ try:
             time.sleep(1)
             multiLed.lightsOut()
 
-        if(timeStamp.hour == currentTime["hour"]):
+        if(timeStamp.hour > currentTime["hour"]):
             api.update()
             multiLed.rainbowLoop(1)
             if currentTime["hour"] == 23:  # 23 hours [special case]
                 currentTime["hour"] = 0  # turn back the time to midnight
-                currentTime["day"] = timeStamp.day
+                currentTime["day"] = timeStamp.weekday()
             else:
                 currentTime["hour"] += 1
             multiLed.lightsOut()
