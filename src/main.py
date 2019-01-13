@@ -62,13 +62,12 @@ try:
     print("*goosebumps is not to be held responsible\nfor you lack of common sense and/or judgment")
     currentTime = {
         "hour": datetime.now().hour,  # get the current hour
-        "date": datetime.now().date()
     }
     halfHour = 30  # keep track of half hour
     api.update()
     print("=================================")
     print("time: {}:00, date: {}".format(
-        currentTime["hour"], currentTime["date"]))
+        currentTime["hour"], datetime.now().date()))
     print(api.toString())
     while True:
         timeStamp = datetime.now()
@@ -133,18 +132,17 @@ try:
             time.sleep(1)
             multiLed.lightsOut()
 
-        if(timeStamp.hour > currentTime["hour"]):
+        if(timeStamp.hour == currentTime["hour"]):
             api.update()
             multiLed.rainbowLoop(1)
             if currentTime["hour"] == 23:  # 23 hours [special case]
                 currentTime["hour"] = 0  # turn back the time to midnight
-                currentTime["date"] = timeStamp.date()
             else:
                 currentTime["hour"] += 1
             multiLed.lightsOut()
             print("=================================")
-            print("the time is {}:00, {}".format(
-                currentTime["hour"], currentTime["date"]))
+            print("time: {},\ndate: {}".format(
+                timeStamp.time(), timeStamp.date()))
             print(api.toString())
 
 finally:
