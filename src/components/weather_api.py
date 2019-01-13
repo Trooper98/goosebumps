@@ -74,7 +74,7 @@ class darkSky_api():
                 break
 
         # avoid unecessary information
-        if(hottest <= self.userPreference["temp"]["cold"] and hottestFeel <= self.userPreference["temp"]["cold"]):
+        if(hottest <= coldest or hottestFeel <= coldestFeel):
             meta = {
                 "temp": self.data[0]["temperature"]["temp"],
                 "coldest": coldest,
