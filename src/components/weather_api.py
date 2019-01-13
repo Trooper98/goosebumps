@@ -46,7 +46,7 @@ class darkSky_api():
 
         # Data model for meta
         meta = {
-            "temp": self.data[0]["temperature"]["temperature"],
+            "temp": self.data[0]["temperature"]["temp"],
             "coldest": coldest,
             "coldestFeel": coldestFeel,
             "hottest": hottest,
@@ -73,40 +73,16 @@ class darkSky_api():
             if(count == 12):
                 break
 
+        # avoid unecessary information
         if(hottest <= self.userPreference["temp"]["cold"] and hottestFeel <= self.userPreference["temp"]["cold"]):
             meta = {
-                "temp": self.data[0]["temperature"]["temperature"],
+                "temp": self.data[0]["temperature"]["temp"],
                 "coldest": coldest,
                 "coldestFeel": coldestFeel,
                 "rainChance": rainChance,
                 "wind": wind
             }
-        elif(coldest >= self.userPreference["temp"]["hot"] and coldestFeel >= self.userPreference["temp"]["hot"]):
-            meta = {
-                "temp": self.data[0]["temperature"]["temperature"],
-                "hottest": hottest,
-                "hottestFeel": hottestFeel,
-                "rainChance": rainChance,
-                "wind": wind
-            }
-        elif(coldestFeel == hottest and hottestFeel <= self.userPreference["temp"]["cold"]):
-            meta = {
-                "temp": self.data[0]["temperature"]["temperature"],
-                "coldest": coldest,
-                "coldestFeel": coldestFeel,
-                "hottest": hottest,
-                "rainChance": rainChance,
-                "wind": wind
-            }
-        elif(coldestFeel == hottest and coldestFeel >= self.userPreference["temp"]["hot"]):
-            meta = {
-                "temp": self.data[0]["temperature"]["temperature"],
-                "coldest": coldest,
-                "hottest": hottest,
-                "hottestFeel": hottestFeel,
-                "rainChance": rainChance,
-                "wind": wind
-            }
+
         return meta
 
     def filterData(self, rawData):

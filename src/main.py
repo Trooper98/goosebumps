@@ -141,8 +141,8 @@ try:
                 currentTime["hour"] += 1
             multiLed.lightsOut()
             print("=================================")
-            print("time: {},\ndate: {}".format(
-                timeStamp.time(), timeStamp.date()))
+            print("time: {}:{},\ndate: {}".format(
+                timeStamp.hour, timeStamp.minute, timeStamp.date()))
             print(api.toString())
 
 finally:
