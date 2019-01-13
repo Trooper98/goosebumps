@@ -68,7 +68,6 @@ try:
     print("=================================")
     print("time: {}:00, date: {}".format(
         currentTime["hour"], datetime.now().date()))
-    print(api.toString())
     while True:
         timeStamp = datetime.now()
         if GPIO.input(setup.rightButton["pin"]) == 0:  # wind
