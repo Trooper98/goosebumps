@@ -114,7 +114,6 @@ class darkSky_api():
 
     def update(self):
         self.rawData = self.getRawData()  # update raw data
-        self.meta = self.getMetaData(self.rawData)  # update meta data
         self.data = self.filterData(self.rawData)  # update overall data
         for data in self.data:
             if data["temperature"]["temp"] < self.userPreference["temp"]["cold"]:
@@ -131,15 +130,16 @@ class darkSky_api():
             else:
                 self.temp = False
 
-            if data["precip"]["precipProb"] > self.userPreference["willRain"]:
+            if data["precip"]["precipProb"] >= self.userPreference["willRain"]:
                 self.rain = True
             else:
                 self.rain = False
 
-            if data["wind"]["windSpeed"] > self.userPreference["badWind"]:
+            if data["wind"]["windSpeed"] >= self.userPreference["badWind"]:
                 self.wind = True
             else:
                 self.wind = False
+        self.meta = self.getMetaData(self.rawData)  # update meta data
 
     def toString(self):
         res = {"rain": self.rain, "wind": self.wind,
