@@ -45,15 +45,15 @@ class darkSky_api():
         wind = data[0]["windSpeed"]
 
         # Data model for meta
-        # meta = {
-        #     "coldest": coldest,
-        #     "coldestFeel": coldestFeel,
-        #     "hottest": hottest,
-        #     "hottestFeel": hottestFeel,
-        #     "rainChance": rainChance,
-        #     "wind": wind
-        # }
-
+        meta = {
+            "temp": self.data[0]["temperature"]["temperature"],
+            "coldest": coldest,
+            "coldestFeel": coldestFeel,
+            "hottest": hottest,
+            "hottestFeel": hottestFeel,
+            "rainChance": rainChance,
+            "wind": wind
+        }
         count = 0
 
         for unit in data:
@@ -75,6 +75,7 @@ class darkSky_api():
 
         if(hottest <= self.userPreference["temp"]["cold"] and hottestFeel <= self.userPreference["temp"]["cold"]):
             meta = {
+                "temp": self.data[0]["temperature"]["temperature"],
                 "coldest": coldest,
                 "coldestFeel": coldestFeel,
                 "rainChance": rainChance,
@@ -82,6 +83,7 @@ class darkSky_api():
             }
         elif(coldest >= self.userPreference["temp"]["hot"] and coldestFeel >= self.userPreference["temp"]["hot"]):
             meta = {
+                "temp": self.data[0]["temperature"]["temperature"],
                 "hottest": hottest,
                 "hottestFeel": hottestFeel,
                 "rainChance": rainChance,
@@ -89,6 +91,7 @@ class darkSky_api():
             }
         elif(coldestFeel == hottest and hottestFeel <= self.userPreference["temp"]["cold"]):
             meta = {
+                "temp": self.data[0]["temperature"]["temperature"],
                 "coldest": coldest,
                 "coldestFeel": coldestFeel,
                 "hottest": hottest,
@@ -97,6 +100,7 @@ class darkSky_api():
             }
         elif(coldestFeel == hottest and coldestFeel >= self.userPreference["temp"]["hot"]):
             meta = {
+                "temp": self.data[0]["temperature"]["temperature"],
                 "coldest": coldest,
                 "hottest": hottest,
                 "hottestFeel": hottestFeel,
