@@ -115,34 +115,30 @@ class darkSky_api():
     def update(self):
         self.rawData = self.getRawData()  # update raw data
         self.data = self.filterData(self.rawData)  # update overall data
+        rainCount = 0
+        windcount = 0
+        tempCount = 0
         for data in self.data:
-            if data["temperature"]["temp"] < self.userPreference["temp"]["cold"]:
-                self.temp = True
-            elif data["temperature"]["temp"] > self.userPreference["temp"]["hot"]:
-                self.temp = True
-            else:
-                self.temp = False
-
             if data["temperature"]["tempFeel"] < self.userPreference["temp"]["cold"]:
-                self.temp = True
-            elif data["temperature"]["tempFeel"] > self.userPreference["temp"]["hot"]:
-                self.temp = True
-            else:
-                self.temp = False
+                tempCount += 1
 
-            print("im inside that place and the rain temp is {} and the bool is {}".format(
-                data["precip"]["precipProb"], self.rain))
             if data["precip"]["precipProb"] >= self.userPreference["willRain"]:
-                self.rain = True
-            else:
-                self.rain = False
-            print("just left that place and the rain temp is {} and the bool is {}".format(
-                data["precip"]["precipProb"], self.rain))
+                rainCount += 1
 
             if data["wind"]["windSpeed"] >= self.userPreference["badWind"]:
-                self.wind = True
-            else:
-                self.wind = False
+                windcount += 1
+        if(rainCount <= 6):
+            self.rain = True
+        else:
+            self.rain = False
+        if(windcount <= 6):
+            self.wind = True
+        else:
+            self.wind = False
+        if(tempCount <= 6):
+            self.temp = True
+        else:
+            self.temp = False
         self.meta = self.getMetaData(self.rawData)  # update meta data
 
     def toString(self):
