@@ -130,10 +130,14 @@ class darkSky_api():
             else:
                 self.temp = False
 
+            print("im inside that place and the rain temp is {} and the bool is {}".format(
+                data["precip"]["precipProb"], self.rain))
             if data["precip"]["precipProb"] >= self.userPreference["willRain"]:
                 self.rain = True
             else:
                 self.rain = False
+            print("just left that place and the rain temp is {} and the bool is {}".format(
+                data["precip"]["precipProb"], self.rain))
 
             if data["wind"]["windSpeed"] >= self.userPreference["badWind"]:
                 self.wind = True

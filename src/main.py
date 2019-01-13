@@ -82,7 +82,7 @@ try:
             print("weather description: {}".format(
                 api.data[0]["description"]))
             time.sleep(.5)
-            multiLed.setColor(multiLed.puprle)
+            multiLed.setColor(multiLed.yellow)
             time.sleep(1)
             multiLed.lightsOut()
         elif GPIO.input(setup.leftButton["pin"]) == 0:  # rain
@@ -97,7 +97,7 @@ try:
             print("weather description: {}".format(
                 api.data[0]["description"]))
             time.sleep(.5)
-            multiLed.setColor(multiLed.puprle)
+            multiLed.setColor(multiLed.yellow)
             time.sleep(1)
             multiLed.lightsOut()
         else:
@@ -122,11 +122,11 @@ try:
             if(api.rain):
                 multiLed.setColor(multiLed.blue)
                 time.sleep(5)
-                multiLed.setColor(multiLed.puprle)
+                multiLed.setColor(multiLed.yellow)
             if(api.wind):
                 multiLed.setColor(multiLed.white)
                 time.sleep(5)
-                multiLed.setColor(multiLed.puprle)
+                multiLed.setColor(multiLed.yellow)
             multiLed.setColor(multiLed.puprle)
             time.sleep(1)
             multiLed.lightsOut()
